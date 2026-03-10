@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Tattoo | PSA</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --success: #22c55e;
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+
+        /* Entrance Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            background: linear-gradient(to right, #818cf8, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Dropdowns */
+        .dropdown { margin-bottom: 15px; }
+        .dropdown-btn {
+            width: 100%;
+            background: rgba(99, 102, 241, 0.2);
+            border: none;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+        .dropdown-btn:hover { background: rgba(99, 102, 241, 0.4); }
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 10px 10px;
+        }
+        .dropdown-content p { padding: 15px; }
+
+        /* Chart Styling */
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .chart-box {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px 20px 0 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px 15px 0 0;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        .bar {
+            width: 60px;
+            background: var(--primary);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            /* Height is 0 initially for the scroll animation */
+            height: 0; 
+            transition: height 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            cursor: help;
+        }
+        .bar:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--primary); }
+        
+        .percent {
+            position: absolute;
+            top: -30px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+        .bar.animate .percent { opacity: 1; }
+
+        .label-row {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 0;
+            border-radius: 0 0 15px 15px;
+        }
+        .date-label {
+            width: 60px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #818cf8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .citation-list { list-style: none; margin-top: 10px; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Digital Footprint</h1>
+            <p>Mastering your reputation in a permanent digital world.</p>
+        </header>
+
+        <section class="card">
+            <h2>The Basics</h2>
+            <p style="margin-bottom: 15px;">Key terms for digital citizens:</p>
+            
+            <div class="dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown('d1')">Data Persistence <span>+</span></button>
+                <div id="d1" class="dropdown-content">
+                    <p>The technical reality that once data is online, it is stored on multiple servers and archives, making "deletion" nearly impossible.</p>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown('d2')">Active vs. Passive <span>+</span></button>
+                <div id="d2" class="dropdown-content">
+                    <p><b>Active:</b> Information you share on purpose (posts, photos). <br><b>Passive:</b> Information left behind without you knowing (cookies, browsing history, GPS metadata).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="stats-section">
+            <h2>The Data: Hiring Trends</h2>
+            <p>Percentage of employers using social media to screen applicants:</p>
+            
+            <div class="chart-container">
+                <div class="chart-box">
+                    <div class="bar" data-height="11%" style="--color: var(--primary);">
+                        <span class="percent">11%</span>
+                    </div>
+                    <div class="bar" data-height="70%" style="background: var(--secondary);">
+                        <span class="percent">70%</span>
+                    </div>
+                    <div class="bar" data-height="94%" style="background: var(--success);">
+                        <span class="percent">94%</span>
+                    </div>
+                </div>
+                <div class="label-row">
+                    <div class="date-label">2010</div>
+                    <div class="date-label">2018</div>
+                    <div class="date-label">2026</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Safety Guidelines</h2>
+            <ul style="padding-left: 20px;">
+                <li><strong>Privacy Check:</strong> Perform a monthly audit of your app permissions.</li>
+                <li><strong>The "Public" Mindset:</strong> Assume everything you type is being recorded by the platform, even in private DMs.</li>
+                <li><strong>Positive Curation:</strong> Build a footprint that helps you—post your projects, certificates, and interests.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Busting Myths</h2>
+            <p><strong>The Myth:</strong> "Snapchat/Stories are temporary."</p>
+            <p><strong>The Reality:</strong> Third-party apps, screen recordings, and server logs mean no content is truly ephemeral.</p>
+        </section>
+
+        <footer>
+            <p><strong>Sources & Citations</strong></p>
+            <ul class="citation-list">
+                <li>Common Sense Education - 2024 Digital Citizenship Guide</li>
+                <li>Pew Research Center - State of the Digital Footprint Report</li>
+                <li>FTC.gov - Protecting Your Online Privacy</li>
+            </ul>
+        </footer>
+    </div>
+
+    <script>
+        // Dropdown Logic
+        function toggleDropdown(id) {
+            const content = document.getElementById(id);
+            const isOpened = content.style.maxHeight;
+            
+            // Close all first for a clean look (optional)
+            document.querySelectorAll('.dropdown-content').forEach(el => el.style.maxHeight = null);
+            
+            if (!isOpened) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // Scroll Animation for Chart
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.bar');
+                    bars.forEach(bar => {
+                        bar.style.height = bar.getAttribute('data-height');
+                        bar.classList.add('animate');
+                    });
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(document.getElementById('stats-section'));
+    </script>
+</body>
+</html>
